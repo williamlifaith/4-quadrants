@@ -2,6 +2,8 @@
   <div class="hello">
     <h1>Hello 4-quadrants</h1>
     This is a time management app!
+   <p>{{ $t("message.hello") }}</p>
+
   </div>
 </template>
 
