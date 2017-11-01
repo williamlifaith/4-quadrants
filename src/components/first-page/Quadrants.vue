@@ -4,17 +4,17 @@
     This is a time management app!
     <span v-text="$t('lang.browse')"></span>
     <p>{{ $t('m.time') }}</p>
-
+<tm-task></tm-task>
   </div>
 </template>
 
 <script>
+  /* eslint-disable key-spacing */
+
+  import Tasks from '../second-page/Tasks.vue'
   export default {
-    name: '',
-    data () {
-      return {
-        msg: ''
-      }
+    components:{
+      'tm-task':Tasks
     }
   }
 </script>
