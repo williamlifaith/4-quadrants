@@ -1,8 +1,17 @@
-# y
+# 4 Quadrant Time Management app
 
-> time management app
+Provide you a crisp app to manage your tasks under the famous Important - Urgent 4 quadrants.
 
-## Build Setup
+Manage your tasks with WebPack / WeChat mini-program
+
+## Developer Code Style Guide
+
+* Javascript: https://github.com/airbnb/javascript
+* Vue.js: https://github.com/pablohpsilva/vuejs-component-style-guide
+* CSS: https://github.com/airbnb/css
+* HTML: https://google.github.io/styleguide/htmlcssguide.html#HTML
+
+## Automation Script
 
 ``` bash
 # install dependencies
