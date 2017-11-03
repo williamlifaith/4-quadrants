@@ -3,7 +3,7 @@
     <h1>Hello 4-quadrants</h1>
     This is a time management app!
     <span v-text="$t('lang.browse')"></span>
-    <p>{{ $t('m.time') }}</p>
+    <p>{{ $t('FIRST_PAGE.hello') }}</p>
 <tm-task></tm-task>
   </div>
 </template>
