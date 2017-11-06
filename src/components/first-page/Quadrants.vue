@@ -1,16 +1,15 @@
 <template>
   <div class="hello">
-    <h1>Hello 4-quadrants</h1>
+    <h1>Hello 4-quadrants111git</h1>
     This is a time management app!
     <span v-text="$t('lang.browse')"></span>
     <p>{{ $t('FIRST_PAGE.hello') }}</p>
-<tm-task></tm-task>
+    <tm-task></tm-task>
   </div>
 </template>
 
 <script>
   /* eslint-disable key-spacing */
-
   import Tasks from '../second-page/Tasks.vue'
   export default {
     components:{
@@ -20,9 +19,9 @@
 </script>
 
 <style lang="sass">
-h1
+  h1
 
-  color: #ffff00
+    color: #ffff00
 
 
 </style>
