@@ -1,0 +1,19 @@
+#!/bin/bash
+
+# Run production build before push
+echo "[INFO] run .git/hooks/pre-push"
+
+
+#echo "[INFO] Check if only one commit"
+#
+#commitCountOfCurrentBranch=$(git log --oneline  master..HEAD | wc -l)
+#if [[ ${commitCountOfCurrentBranch} -gt 1 ]];then
+#  echo "[ERROR] Only a commit per branch is allowed. Try run 'git rebase -i origin/master'"
+#  exit 1
+#fi
+#
+#echo "[INFO] run grunt build --env=prod to try build a production package"
+#
+npm run build
+exit $?
+

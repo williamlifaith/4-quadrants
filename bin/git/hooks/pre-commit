@@ -1,0 +1,20 @@
+#!/bin/bash
+
+echo "[INFO] run .git/hooks/pre-commit"
+
+BRANCH=`git rev-parse --abbrev-ref HEAD`
+
+if [[ "$BRANCH" == "master" ]]; then
+  echo "[ERROR] Commit Branch must not be master"
+  echo "[INFO] You current branch is $BRANCH"
+  exit 1
+fi
+
+if [[ ! "$BRANCH" =~ ^feature- ]]; then
+  echo "[ERROR] Commit Branch must start with feature-"
+  echo "[INFO] Say git checkout -b feature-100 origin/feature-100"
+  echo "[INFO] You current branch is $BRANCH"
+  exit 1
+fi
+
+exit 0
