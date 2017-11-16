@@ -3,17 +3,68 @@
 # Run production build before push
 echo "[INFO] run .git/hooks/pre-push"
 
+echo "[INFO] Check if only one commit"
 
-#echo "[INFO] Check if only one commit"
-#
-#commitCountOfCurrentBranch=$(git log --oneline  master..HEAD | wc -l)
-#if [[ ${commitCountOfCurrentBranch} -gt 1 ]];then
-#  echo "[ERROR] Only a commit per branch is allowed. Try run 'git rebase -i origin/master'"
-#  exit 1
-#fi
-#
-#echo "[INFO] run grunt build --env=prod to try build a production package"
-#
+# file .git/hooks/pre-push
+currentBranch=$(git symbolic-ref HEAD | sed -e 's,.*/\(.*\),\1,')
+
+gitLog=$(git log --graph --abbrev-commit --decorate  --first-parent HEAD)
+
+commitCountOfCurrentBranch=0
+startCountCommit=""
+baseBranch=""
+
+while read -r line; do
+
+    # if git log line started with something like "* commit aaface7 (origin/BRANCH_NAME)" or "commit ae4f131 (HEAD -> BRANCH_NAME)"
+    # that means it's on our branch BRANCH_NAME
+
+    matchedCommitSubstring="$( [[ $line =~ \*[[:space:]]commit[[:space:]].*\((.*)\) ]] && echo ${BASH_REMATCH[1]} )"
+
+    if [[ ! -z ${matchedCommitSubstring} ]];then
+
+      if [[  $line =~ $currentBranch ]];then
+        startCountCommit="true"
+      else
+        startCountCommit=""
+
+        if [[ -z ${baseBranch} ]];then
+          baseBranch=$( [[ ${matchedCommitSubstring} =~ (.*)\, ]] && echo ${BASH_REMATCH[1]} || echo ${matchedCommitSubstring} )
+
+        fi
+
+      fi
+
+    fi
+
+
+    if [[ ! -z ${startCountCommit} && $line =~ ^\*[[:space:]]commit[[:space:]] ]];then
+      ((commitCountOfCurrentBranch++))
+    fi
+
+
+done <<< "$gitLog"
+
+if [[ -z ${baseBranch} ]];then
+
+  baseBranch="origin/master"
+
+else
+
+  baseBranch=$( [[ ${baseBranch} =~ ^(.*)\, ]] && echo ${BASH_REMATCH[1]} || echo ${baseBranch} )
+
+fi
+
+
+echo "[INFO] Current commit count of the branch ${currentBranch}:  ${commitCountOfCurrentBranch}"
+
+if [[ ${commitCountOfCurrentBranch} -gt 1 ]];then
+  echo "[ERROR] Only a commit per branch is allowed."
+  echo "[INFO] Try run 'git rebase -i ${baseBranch}'"
+  echo "[INFO] Then run 'git push --force' to update remote branch"
+  exit 1
+fi
+
 npm run build
 exit $?
 
