@@ -5,6 +5,7 @@
     </li>
 
     <li class="name">
+      <img src="https://newcdn.iconfinder.com/data/icons/simplicity/512/microphone-24.png"/>
       <input :style="'background-color:' + inputColor" :placeholder="$t('NEW_TASK.name_placeholder')" v-model="task.name"/>
     </li>
 
@@ -13,18 +14,20 @@
     </li>
 
     <li class="date">
+      <img src="https://newcdn.iconfinder.com/data/icons/streamline-time/60/cell-6-0-30.png"/>
       <input id="start-date" v-model="task.startDate" type="datetime-local"/>
       <span> &gt; </span>
       <input id="due-date" v-model="task.dueDate" type="datetime-local"/>
     </li>
 
     <li class="actions">
-      <button @click="submit">{{ $t('NEW_TASK.submit') }}</button>
+      <img src="https://newcdn.iconfinder.com/data/icons/flat-icons-web/40/OK-48.png" @click="submit"/>
     </li>
   </ul>
 </template>
 
 <script>
+  import Color from 'color';
   import GroupSelector from './GroupSelector.vue';
   import CategorySelector from './CategorySelector.vue';
   import {categories, groups} from './data';
@@ -58,10 +61,7 @@
         const filteredCategories = this.categories.filter(category => {
           return categoryId == category.id;
         });
-        this.inputColor = filteredCategories[0].color;
-      },
-      changeName(name){
-        this.task.name = name;
+        this.inputColor  = Color(filteredCategories[0].color).alpha(0.2).string();
       },
       submit(){
         //this.$emit('new-task', this.task);
@@ -92,12 +92,18 @@
 
       &.name{
         padding: 0;
+        position: relative;
         input{
-          width:96%;
+          width:90%;
           height:auto;
           font-size:30px;
-          padding:5px 2%;
+          padding:5px 2% 5px 8%;
           border:none;
+        }
+        img{
+          position:absolute;
+          top:10px;
+          left:3px;
         }
       }
 
@@ -108,6 +114,11 @@
         span{
           padding:0px 10px;
           font-weight:bold;
+        }
+        img{
+          width:20px;
+          height:20px;
+          margin-right:5px;
         }
       }
 
