@@ -27,10 +27,16 @@
 </template>
 
 <script>
+  import Vue from 'vue';
+  import UUID from 'vue-uuid';
   import Color from 'color';
   import GroupSelector from './GroupSelector.vue';
   import CategorySelector from './CategorySelector.vue';
   import {categories, groups} from './data';
+  import {mapMutations} from 'vuex';
+  import * as types from '../../store/mutation-types';
+
+  Vue.use(UUID);
 
   export default {
     data(){
@@ -41,7 +47,7 @@
 
       return {
         task: {
-          id:'ba989d64-9326-4d90-b75f-f546bd8efd62',
+          id: this.$uuid(),
           name:'',
           status:'to-do',
           startDate,
@@ -57,6 +63,9 @@
       'category-selector': CategorySelector
     },
     methods:{
+      ...mapMutations({
+        'addTask': types.ADD_TASK,
+      }),
       setInputColor(categoryId){
         const filteredCategories = this.categories.filter(category => {
           return categoryId == category.id;
@@ -64,8 +73,7 @@
         this.inputColor  = Color(filteredCategories[0].color).alpha(0.2).string();
       },
       submit(){
-        //this.$emit('new-task', this.task);
-        alert(JSON.stringify(this.task));
+        this.addTask({task:this.task});
       },
       groupSelectChange(groupId){
         this.task.groupId = groupId;
